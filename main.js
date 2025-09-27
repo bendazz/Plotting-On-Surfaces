@@ -166,19 +166,36 @@ function updateRReadout() {
 let given = { x: 0, y: 0 };
 
 function generateProblem() {
-  // Random coefficients with some variation; exclude extremely small absolute values to keep it interesting
   const rnd = (min, max) => Math.random() * (max - min) + min;
-  const a = +(rnd(-1.5, 1.5).toFixed(2));
-  const b = +(rnd(-1.5, 1.5).toFixed(2));
-  const c = +(rnd(-3.0, 3.0).toFixed(2));
-  // Avoid both a and b being near 0 simultaneously
-  if (Math.abs(a) < 0.1 && Math.abs(b) < 0.1) return generateProblem();
+
+  // Enforce same-sign a and b (zeros allowed)
+  const sign = Math.random() < 0.5 ? 1 : -1;
+  let aMag = +(rnd(0.2, 1.2).toFixed(2));
+  let bMag = +(rnd(0.2, 1.2).toFixed(2));
+  if (Math.random() < 0.25) aMag = 0;
+  if (Math.random() < 0.25) bMag = 0;
+  if (aMag < 0.1 && bMag < 0.1) aMag = 0.2;
+  const a = +(sign * aMag).toFixed(2);
+  const b = +(sign * bMag).toFixed(2);
+  const c = +(rnd(-2.0, 2.0).toFixed(2));
   paraboloidParams = { a, b, c };
 
-  // Given (x,y) inside current domain [-R,R]
   const R = parseFloat(rSlider.value);
-  const gx = +(rnd(-0.8 * R, 0.8 * R).toFixed(1));
-  const gy = +(rnd(-0.8 * R, 0.8 * R).toFixed(1));
+  const zCap = Math.max(3, 0.5 * R);
+
+  // Choose (x,y) so |z| stays moderate
+  let gx = 0, gy = 0;
+  let ok = false;
+  for (let tries = 0; tries < 200; tries++) {
+    const x = +(rnd(-0.7 * R, 0.7 * R).toFixed(1));
+    const y = +(rnd(-0.7 * R, 0.7 * R).toFixed(1));
+    const z = computeZ(paraboloidParams, x, y);
+    if (Math.abs(z) <= zCap) { gx = x; gy = y; ok = true; break; }
+  }
+  if (!ok) {
+    gx = +(rnd(-0.2 * R, 0.2 * R).toFixed(1));
+    gy = +(rnd(-0.2 * R, 0.2 * R).toFixed(1));
+  }
   given = { x: gx, y: gy };
 
   // Update UI
@@ -253,7 +270,8 @@ function plotMarker(x, y, z, ok) {
   // Fixed large marker radius for high visibility regardless of R
   const radius = 1.2;
   const geom = new THREE.SphereGeometry(radius, 24, 16);
-  const color = ok ? 0xf59e0b /* orange */ : 0xef4444 /* red */;
+  // Always use red so it stands out clearly
+  const color = 0xef4444; /* red */
   const mat = new THREE.MeshStandardMaterial({
     color,
     emissive: color,
@@ -294,7 +312,7 @@ function handleSubmit() {
   } else if (!zOk) {
     feedback.textContent = `Incorrect z. For x=${x}, y=${y}, z should be ${correctZ.toFixed(2)}.`;
   } else {
-    feedback.textContent = 'Correct! Point plotted in green.';
+    feedback.textContent = 'Correct!';
   }
 }
 
