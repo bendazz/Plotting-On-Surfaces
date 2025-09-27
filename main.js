@@ -250,7 +250,10 @@ function clearMarker() {
 
 function plotMarker(x, y, z, ok) {
   clearMarker();
-  const geom = new THREE.SphereGeometry(0.25, 24, 16);
+  // Scale marker radius with domain size R so it's always easy to see
+  const R = parseFloat(rSlider.value);
+  const radius = Math.min(2.5, Math.max(0.04 * R, 0.6));
+  const geom = new THREE.SphereGeometry(radius, 24, 16);
   const mat = new THREE.MeshStandardMaterial({ color: ok ? 0x10b981 : 0xef4444, metalness: 0.1, roughness: 0.6 });
   pointMarker = new THREE.Mesh(geom, mat);
   pointMarker.position.set(x, y, z);
