@@ -1,0 +1,114 @@
+html, body { height: 100%; margin: 0; padding: 0; }
+
+body {
+  background: #ffffff;
+  color: #111111;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+}
+
+/* Two-row layout: top row has plot (left) and practice (right); bottom row is notes */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two equal columns on top row */
+  grid-template-rows: minmax(420px, 60vh) auto; /* top row tall, bottom auto */
+  gap: 12px;
+  padding: 12px;
+  height: 100dvh;
+  box-sizing: border-box;
+}
+
+.plot-section {
+  position: relative;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: clip;
+  background: #fff;
+}
+
+/* Canvas container fills the plot section */
+#app {
+  position: absolute;
+  inset: 0;
+}
+
+canvas { display: block; }
+
+/* Floating controls over the plot (from Surfaces) */
+#ui {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+#toolbar { display: flex; gap: 8px; }
+
+#homeBtn {
+  background: #f7f7f7;
+  color: #111;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#homeBtn:hover { background: #eee; }
+
+#controls {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: auto 240px auto;
+  gap: 6px 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+#controls label { display: contents; }
+
+#controls input[type="range"] { width: 240px; }
+
+#controls span { width: 48px; text-align: right; font-variant-numeric: tabular-nums; }
+
+#controls select { width: 240px; }
+
+#paramRows {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto 240px auto;
+  gap: 6px 10px;
+}
+
+#equation {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  padding: 4px 6px 8px 2px;
+  color: #111827;
+}
+
+/* Practice problems panel */
+.practice-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fbfbfb;
+}
+
+.practice-section h2 { margin: 6px 0 10px; font-size: 18px; }
+.problems { margin: 0; padding-left: 20px; }
+.problems li { margin: 6px 0; }
+.tip { color: #4b5563; font-size: 13px; margin-top: 10px; }
+
+/* Bottom notes area spans both columns */
+.notes-section {
+  grid-column: 1 / -1;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}

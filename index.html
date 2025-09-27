@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plotting On Surfaces — Teaching 3D Math</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.1/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.1/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <noscript>This app requires JavaScript enabled.</noscript>
+    <div class="layout">
+      <!-- Upper-left: 3D plotting area with the same method from Surfaces -->
+      <section class="plot-section">
+        <div id="app" aria-label="3D plotting area"></div>
+        <div id="ui" aria-label="controls">
+          <div id="toolbar">
+            <button id="homeBtn" type="button" title="Reset view to home">Home</button>
+          </div>
+          <div id="controls" aria-label="surface controls">
+            <div id="equation" aria-live="polite">z = 0.50 x² + 0.50 y² + 0.0</div>
+            <label> Surface
+              <select id="surfaceSelect">
+                <option value="paraboloid" selected>Paraboloid</option>
+                <option value="plane">Plane</option>
+                <option value="sine">Sine wave</option>
+                <option value="sinc">Radial ripples (sinc)</option>
+                <option value="gaussian">Gaussian bump</option>
+              </select>
+              <span></span>
+            </label>
+            <div id="paramRows"></div>
+            <label> R
+              <input id="rSlider" type="range" min="1" max="50" step="1" value="20" />
+              <span id="rValue">20</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Upper-right: practice problems area -->
+      <section class="practice-section" aria-labelledby="practice-title">
+        <h2 id="practice-title">Practice problems</h2>
+        <ol class="problems">
+          <li>Identify whether z = x² + y² is convex or concave. Sketch the level curves.</li>
+          <li>For z = 2x − y + 1, what is the intersection with the plane z = 0? Plot that line on the XY-plane.</li>
+          <li>Given z = A exp(-(x²/2σx² + y²/2σy²)), how does increasing σx change the surface?</li>
+          <li>Explore z = sin(kx x + ky y). What happens to the wavelength when kx doubles?</li>
+        </ol>
+        <p class="tip">You can modify or add your own problems here—this panel is intentionally separate from the plot.</p>
+      </section>
+
+      <!-- Lower row: leave room for notes, hints, or a worksheet embed later -->
+      <section class="notes-section">
+        <h3>Notes</h3>
+        <p>Use the sliders to change parameters. The equation display updates live. Click Home to reset the camera.</p>
+      </section>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+  </html>
