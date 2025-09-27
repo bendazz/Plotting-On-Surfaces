@@ -17,50 +17,52 @@
   <body>
     <noscript>This app requires JavaScript enabled.</noscript>
     <div class="layout">
-      <!-- Upper-left: 3D plotting area with the same method from Surfaces -->
+      <!-- Upper-left: 3D plotting area -->
       <section class="plot-section">
         <div id="app" aria-label="3D plotting area"></div>
         <div id="ui" aria-label="controls">
           <div id="toolbar">
             <button id="homeBtn" type="button" title="Reset view to home">Home</button>
           </div>
-          <div id="controls" aria-label="surface controls">
-            <div id="equation" aria-live="polite">z = 0.50 x² + 0.50 y² + 0.0</div>
-            <label> Surface
-              <select id="surfaceSelect">
-                <option value="paraboloid" selected>Paraboloid</option>
-                <option value="plane">Plane</option>
-                <option value="sine">Sine wave</option>
-                <option value="sinc">Radial ripples (sinc)</option>
-                <option value="gaussian">Gaussian bump</option>
-              </select>
-              <span></span>
-            </label>
-            <div id="paramRows"></div>
+          <div id="controls" aria-label="plot controls">
             <label> R
-              <input id="rSlider" type="range" min="1" max="50" step="1" value="20" />
+              <input id="rSlider" type="range" min="4" max="50" step="1" value="20" />
               <span id="rValue">20</span>
             </label>
           </div>
         </div>
       </section>
 
-      <!-- Upper-right: practice problems area -->
+      <!-- Upper-right: practice problem (paraboloids only) -->
       <section class="practice-section" aria-labelledby="practice-title">
-        <h2 id="practice-title">Practice problems</h2>
-        <ol class="problems">
-          <li>Identify whether z = x² + y² is convex or concave. Sketch the level curves.</li>
-          <li>For z = 2x − y + 1, what is the intersection with the plane z = 0? Plot that line on the XY-plane.</li>
-          <li>Given z = A exp(-(x²/2σx² + y²/2σy²)), how does increasing σx change the surface?</li>
-          <li>Explore z = sin(kx x + ky y). What happens to the wavelength when kx doubles?</li>
-        </ol>
-        <p class="tip">You can modify or add your own problems here—this panel is intentionally separate from the plot.</p>
+        <h2 id="practice-title">Paraboloid point plotting</h2>
+        <p id="problemEquation" class="equation">z = 0.50 x² + 0.50 y² + 0.00</p>
+        <p id="givenXY" class="given">Given: x = ?, y = ?</p>
+
+        <div class="inputs">
+          <label> x
+            <input id="inputX" type="number" step="0.1" inputmode="decimal" />
+          </label>
+          <label> y
+            <input id="inputY" type="number" step="0.1" inputmode="decimal" />
+          </label>
+          <label> z
+            <input id="inputZ" type="number" step="0.1" inputmode="decimal" />
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="submitBtn" type="button">Plot point</button>
+          <button id="newProblemBtn" type="button">New problem</button>
+        </div>
+
+        <div id="feedback" class="feedback" aria-live="polite"></div>
       </section>
 
       <!-- Lower row: leave room for notes, hints, or a worksheet embed later -->
       <section class="notes-section">
         <h3>Notes</h3>
-        <p>Use the sliders to change parameters. The equation display updates live. Click Home to reset the camera.</p>
+        <p>Click New problem to generate a new paraboloid equation and a pair (x, y). Type the given x and y in the boxes, compute z from the equation, and plot the point. Use R to zoom the square domain.</p>
       </section>
     </div>
 
